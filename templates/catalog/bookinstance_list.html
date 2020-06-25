@@ -1,0 +1,73 @@
+{% extends "base_temp.html" %}
+{% load static %}
+{% block content%}
+
+    <title>All Book copies in Library </title>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>All Book copies in Library</h4>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Due-Back(s)</th>   
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {% for copy in bookinstance_list %}
+                                    
+                                    <tr class="odd gradeX">
+    <td><a href="{{ book.get_absolute_url }}">
+    {{ copy.book }}</a></td>
+
+  	<td>{{ copy.due_back }}</td>
+
+    {% endfor %}
+
+                                    </tr>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+    </script>
+
+</body>
+
+</html>
+{% endblock %}

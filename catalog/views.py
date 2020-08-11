@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+import csv
 import datetime
+from django.http import HttpResponse
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -99,3 +100,15 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
 	def get_queryset(self):
 		return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
+#exporting csv file for printing 
+def export_books_csv(request):
+	response = HttpResponse(content_type = 'text/csv')
+	response['Content-Disposition'] = 'attachment; filename="books.csv"'
+
+	write = csv.writer(response)
+	write.writerow(['title', 'author', 'isbn'])
+	books = Book.objects.all().values_list('title', 'author', 'isbn')
+
+	for book in books:
+		write.writerow(book)
+	return response
